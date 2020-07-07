@@ -20,7 +20,7 @@ missing<-sum(is.na(dat$steps))
 unlink(temp)
 ```
 **2. Here we plot the total number of steps taken each day**  
-```{r fig.width=10}
+```{r fig.width=13}
 by_date<-group_by(dat,date)
 total_date<-summarise(by_date,sum=sum(steps),.groups = 'keep')
 with(total_date, hist(sum,main="Total number of steps",xlab=""))
@@ -30,7 +30,7 @@ with(total_date, hist(sum,main="Total number of steps",xlab=""))
 summary(total_date)
 ```
 **4. Here we show the time series plot of the average number of steps taken**  
-```{r fig.width=10}
+```{r fig.width=13}
 by_interval<-group_by(dat,interval)
 mean_interval<-summarise(by_interval,mean=mean(steps,na.rm=TRUE),.groups = 'keep')
 with(mean_interval, plot(interval,mean,type = "l",main="Average number of steps",ylab="steps by 5-minute interval"))
@@ -47,7 +47,7 @@ impute.mean <- function(x) replace(x, is.na(x), mean(x, na.rm = TRUE))
 imputed<-mutate(by_interval,steps = impute.mean(steps))
 ```
 **7. Here we show a histogram of the total number of steps taken each day after missing values are imputed**  
-```{r fig.width=10}
+```{r fig.width=13}
 imputed_by_date<-group_by(imputed,date)
 imputed_total_date<-summarise(imputed_by_date,sum=sum(steps),.groups = 'keep')
 with(imputed_total_date, hist(sum,main="Total number of steps",xlab=""))
