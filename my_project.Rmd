@@ -37,7 +37,8 @@ with(mean_interval, plot(interval,mean,type = "l",main="Average number of steps"
 mean_interval[which.max(mean_interval$mean),]
 ```
 **6. Here we describe and show a strategy for imputing missing data**  
-There are `r missing` missing values in the original dataset - there are 8 days for which there is no data. We will impute the missing data by using the mean for that 5-minute interval.
+There are `r missing` missing values in the original dataset - there are 8 days for which there is no data.  
+We will impute the missing data by using the mean for that 5-minute interval.
 ```{r}
 impute.mean <- function(x) replace(x, is.na(x), mean(x, na.rm = TRUE))
 imputed<-mutate(by_interval,steps = impute.mean(steps))
@@ -52,8 +53,12 @@ We see that the profile of the data does not change after we impute it.
 ```{r}
 summary(imputed_total_date)
 ```
-*Note that in the original calculation and histogram I do not remove the 8 days for which we have no data. If you use na.rm=TRUE to remove the missing values, they are still counted as 0 in any summary statistics - the mean/median total number of steps per day will be lower, because the 8 missing days are all taken as 0 in the numerator, while the denominator is higher (61 days rather than the 53 days for which we have data). I took this approach because I think it's unrealistic that no steps were taken on those 8 days. Rather the more plausible explanation is that the person did not wear his or hers activity tracker on that day. The effect of this can be seen below.*  
-
+*Note that in the original calculation and histogram I do not remove the 8 days for which we have no data.*  
+*If you use na.rm=TRUE to remove the missing values, they are still counted as 0 in any summary statistics.*  
+*As a result the mean/median total number of steps per day will be lower, because the 8 missing days are all taken as 0 in the numerator, while the denominator is higher.*  
+*I took this approach because I think it's unrealistic that no steps were taken on those 8 days.*  
+*Rather the more plausible explanation is that the person did not wear his or hers activity tracker on that day. The effect of this can be seen below.*   
+  
 *Missing data not removed from the original data set. Note that there are 8 missing values and the minimum number of steps is 41:*  
 ```{r} 
 summary(total_date)
