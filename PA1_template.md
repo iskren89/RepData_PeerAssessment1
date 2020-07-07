@@ -7,6 +7,7 @@ output:
   pdf_document: default
 ---
 # Reproducible research project
+  
 **1. Here we are loading and preprocessing the data**  
 
 ```r
@@ -20,7 +21,8 @@ dat[,3]<-factor(dat[,3])
 missing<-sum(is.na(dat$steps))
 unlink(temp)
 ```
-**2. Here we plot the total number of steps taken each day**  
+  
+**2. Here we plot the total number of steps taken each day**   
 
 ```r
 by_date<-group_by(dat,date)
@@ -29,6 +31,7 @@ with(total_date, hist(sum,main="Total number of steps",xlab=""))
 ```
 
 ![plot of chunk unnamed-chunk-2](figure/unnamed-chunk-2-1.png)
+  
 **3. Here we calculate the mean and median number of steps taken each day**  
 
 ```r
@@ -45,7 +48,8 @@ summary(total_date)
 ##  2012-10-06: 1   Max.   :21194  
 ##  (Other)   :55   NA's   :8
 ```
-**4. Here we show the time series plot of the average number of steps taken**  
+  
+**4. Here we show the time series plot of the average number of steps taken**   
 
 ```r
 by_interval<-group_by(dat,interval)
@@ -54,6 +58,7 @@ with(mean_interval, plot(interval,mean,type = "l",main="Average number of steps"
 ```
 
 ![plot of chunk unnamed-chunk-4](figure/unnamed-chunk-4-1.png)
+  
 **5. The 5-minute interval that, on average, contains the maximum number of step is:**  
 
 ```r
@@ -67,6 +72,7 @@ mean_interval[which.max(mean_interval$mean),]
 ##   <fct>    <dbl>
 ## 1 835       206.
 ```
+  
 **6. Here we describe and show a strategy for imputing missing data**  
 There are 2304 missing values in the original dataset - there are 8 days for which there is no data.  
 We will impute the missing data by using the mean for that 5-minute interval.  
@@ -75,7 +81,8 @@ We will impute the missing data by using the mean for that 5-minute interval.
 impute.mean <- function(x) replace(x, is.na(x), mean(x, na.rm = TRUE))
 imputed<-mutate(by_interval,steps = impute.mean(steps))
 ```
-**7. Here we show a histogram of the total number of steps taken each day after missing values are imputed**  
+  
+**7. Here we show a histogram of the total number of steps taken each day after missing values are imputed**   
 
 ```r
 imputed_by_date<-group_by(imputed,date)
@@ -84,6 +91,7 @@ with(imputed_total_date, hist(sum,main="Total number of steps",xlab=""))
 ```
 
 ![plot of chunk unnamed-chunk-7](figure/unnamed-chunk-7-1.png)
+  
 We see that the profile of the data does not change after we impute it.  
 
 ```r
@@ -100,6 +108,7 @@ summary(imputed_total_date)
 ##  2012-10-06: 1   Max.   :21194  
 ##  (Other)   :55
 ```
+  
 *Note that in the original calculation and histogram I do not remove the 8 days for which we have no data.*  
 *If you use na.rm=TRUE to remove the missing values, they are still counted as 0 in any summary statistics.*  
 *As a result the mean/median total number of steps per day will be lower, because the 8 missing days are all taken as 0 in the numerator, while the denominator is higher.*  
@@ -122,7 +131,7 @@ summary(total_date)
 ##  2012-10-06: 1   Max.   :21194  
 ##  (Other)   :55   NA's   :8
 ```
-
+  
 *Missing data removed from the original data set. Note that there are no missing values and the minimum number of steps is 0:*  
 
 ```r
@@ -140,6 +149,7 @@ summary(removed_total_date)
 ##  2012-10-06: 1   Max.   :21194  
 ##  (Other)   :55
 ```
+  
 **8. Here we make a panel plot comparing the average number of steps taken per 5-minute interval across weekdays and weekends**  
 
 ```r
