@@ -7,7 +7,7 @@ output:
   pdf_document: default
 ---
 # Reproducible research project
-**1. Here we are loading and preprocessing the data**
+**1. Here we are loading and preprocessing the data**  
 ```{r}
 library(dplyr)
 library(knitr)
@@ -19,29 +19,29 @@ dat[,3]<-factor(dat[,3])
 missing<-sum(is.na(dat$steps))
 unlink(temp)
 ```
-**2. Here we plot the total number of steps taken each day**
+**2. Here we plot the total number of steps taken each day**  
 ```{r fig.width=10}
 by_date<-group_by(dat,date)
 total_date<-summarise(by_date,sum=sum(steps),.groups = 'keep')
 with(total_date, hist(sum,main="Total number of steps",xlab=""))
 ```
-**3. Here we calculate the mean and median number of steps taken each day** 
+**3. Here we calculate the mean and median number of steps taken each day**  
 ```{r}
 summary(total_date)
 ```
-**4. Here we show the time series plot of the average number of steps taken**
+**4. Here we show the time series plot of the average number of steps taken**  
 ```{r fig.width=10}
 by_interval<-group_by(dat,interval)
 mean_interval<-summarise(by_interval,mean=mean(steps,na.rm=TRUE),.groups = 'keep')
 with(mean_interval, plot(interval,mean,type = "l",main="Average number of steps",ylab="steps by 5-minute interval"))
 ```
-**5. The 5-minute interval that, on average, contains the maximum number of step is:**
+**5. The 5-minute interval that, on average, contains the maximum number of step is:**  
 ```{r}
 mean_interval[which.max(mean_interval$mean),]
 ```
 **6. Here we describe and show a strategy for imputing missing data**  
 There are `r missing` missing values in the original dataset - there are 8 days for which there is no data.  
-We will impute the missing data by using the mean for that 5-minute interval.
+We will impute the missing data by using the mean for that 5-minute interval.  
 ```{r}
 impute.mean <- function(x) replace(x, is.na(x), mean(x, na.rm = TRUE))
 imputed<-mutate(by_interval,steps = impute.mean(steps))
@@ -72,7 +72,7 @@ summary(total_date)
 removed_total_date<-summarise(by_date,sum=sum(steps,na.rm=TRUE),.groups = 'keep')
 summary(removed_total_date)
 ```
-**8. Here we make a panel plot comparing the average number of steps taken per 5-minute interval across weekdays and weekends**
+**8. Here we make a panel plot comparing the average number of steps taken per 5-minute interval across weekdays and weekends**  
 ```{r}
 imputed$date<-as.Date(imputed$date)
 imputed$weekday<-as.factor(weekdays(imputed$date))
